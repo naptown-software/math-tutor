@@ -1,0 +1,7 @@
+<div class="app-container">
+  @switch (gameState.gamePhase()) {
+    @case ('setup') { <app-setup /> }
+    @case ('playing') { <app-flashcard /> }
+    @case ('results') { <app-results /> }
+  }
+</div>

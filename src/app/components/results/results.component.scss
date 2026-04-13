@@ -1,0 +1,226 @@
+.results-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.card {
+  background: white;
+  border-radius: 20px;
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+
+.section-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #555;
+  margin: 0 0 1rem;
+}
+
+/* Hero */
+.result-hero {
+  background: white;
+  border-radius: 24px;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.12);
+}
+
+.result-emoji {
+  font-size: 4rem;
+  animation: bounce 1.5s infinite;
+}
+
+.result-score {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #333;
+  margin: 0.5rem 0 0.25rem;
+}
+
+.result-pct {
+  font-size: 3rem;
+  font-weight: 900;
+  margin: 0.25rem 0;
+
+  &.pct-gold { color: #f0a500; }
+  &.pct-green { color: var(--secondary); }
+  &.pct-blue { color: #5b8dee; }
+  &.pct-red { color: var(--primary); }
+}
+
+.result-message {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #666;
+  margin: 0.75rem 0 1.5rem;
+}
+
+.result-stats {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  background: #f9f9f9;
+  border-radius: 16px;
+  padding: 0.75rem 1.25rem;
+  min-width: 90px;
+}
+
+.stat-icon { font-size: 1.4rem; }
+.stat-label { font-size: 0.75rem; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 0.5px; }
+.stat-value { font-size: 1.4rem; font-weight: 800; color: #333; }
+
+/* Save */
+.save-section {
+  background: linear-gradient(135deg, #fff9e6, #fff);
+}
+
+.save-row {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.name-input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border-radius: 14px;
+  border: 2px solid #e0e0e0;
+  font-size: 1rem;
+  font-family: inherit;
+  font-weight: 600;
+  transition: border-color 0.15s;
+
+  &:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+}
+
+.save-btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 14px;
+  border: none;
+  background: linear-gradient(135deg, var(--accent), #ffc93c);
+  color: #333;
+  font-size: 1rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255,230,109,0.5);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.saved-badge {
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #2e7d6b;
+  background: rgba(149, 225, 211, 0.3);
+  border: 2px solid var(--success);
+}
+
+/* High scores */
+.scores-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.score-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 12px;
+  background: rgba(255, 230, 109, 0.15);
+}
+
+.rank { font-size: 1.25rem; min-width: 2rem; }
+.player-name { flex: 1; font-weight: 700; }
+.player-pct { font-weight: 800; color: var(--primary); }
+.player-pts { font-weight: 600; color: #888; font-size: 0.9rem; }
+.player-date { font-size: 0.8rem; color: #aaa; }
+
+/* Review */
+.review-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.review-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.95rem;
+
+  &.review-correct {
+    background: rgba(149, 225, 211, 0.2);
+  }
+
+  &.review-wrong {
+    background: rgba(255, 139, 148, 0.15);
+  }
+}
+
+.review-num { font-weight: 700; color: #888; min-width: 1.5rem; font-size: 0.85rem; }
+.review-problem { flex: 1; font-weight: 700; font-size: 1rem; }
+.review-answer { font-weight: 600; color: #555; }
+.review-correct-ans { color: var(--secondary); font-weight: 700; font-size: 0.85rem; }
+.review-icon { font-size: 1.1rem; }
+
+/* Action buttons */
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.btn-play-again,
+.btn-settings {
+  flex: 1;
+  padding: 1rem;
+  border-radius: 18px;
+  border: none;
+  font-size: 1.1rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.15s;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+  }
+}
+
+.btn-play-again {
+  background: linear-gradient(135deg, var(--primary), #ff8c42);
+  color: white;
+}
+
+.btn-settings {
+  background: linear-gradient(135deg, var(--secondary), #38b2ac);
+  color: white;
+}

@@ -1,0 +1,107 @@
+<div class="game-container">
+
+  <!-- Header: progress + score + streak -->
+  <div class="game-header">
+    <div class="progress-section">
+      <div class="progress-label">
+        Question {{ gameState.currentIndex() + 1 }} / {{ gameState.problems().length }}
+      </div>
+      <div class="progress-bar-track">
+        <div class="progress-bar-fill" [style.width.%]="progressPercent"></div>
+      </div>
+    </div>
+
+    <div class="score-section">
+      <div class="score-badge">
+        <span class="score-label">Score</span>
+        <span class="score-value">{{ gameState.score() }}</span>
+      </div>
+      @if (gameState.streak() >= 3) {
+        <div class="streak-badge">
+          🔥 {{ gameState.streak() }}
+        </div>
+      }
+      @if (streakStars) {
+        <div class="stars-badge">{{ streakStars }}</div>
+      }
+    </div>
+  </div>
+
+  <!-- Timer -->
+  @if (gameState.config().timerSeconds > 0) {
+    <div class="timer-section">
+      <svg class="timer-ring" width="70" height="70" viewBox="0 0 70 70">
+        <circle cx="35" cy="35" r="28" fill="none" stroke="#e0e0e0" stroke-width="6"/>
+        <circle
+          cx="35" cy="35" r="28"
+          fill="none"
+          [attr.stroke]="timerColor"
+          stroke-width="6"
+          stroke-linecap="round"
+          [attr.stroke-dasharray]="circumference"
+          [attr.stroke-dashoffset]="timerDashOffset"
+          transform="rotate(-90 35 35)"
+          style="transition: stroke-dashoffset 0.9s linear, stroke 0.3s"
+        />
+        <text x="35" y="40" text-anchor="middle" font-size="16" font-weight="bold" fill="#444">
+          {{ gameState.timeRemaining() }}
+        </text>
+      </svg>
+    </div>
+  }
+
+  <!-- Flashcard -->
+  <div class="card-wrapper" [class.flipped]="isFlipped()">
+    <div class="card">
+      <div class="card-front">
+        @if (gameState.currentProblem(); as problem) {
+          <div class="problem-text">{{ problem.displayText }}</div>
+        }
+      </div>
+      <div class="card-back" [class.correct]="gameState.feedbackState() === 'correct'" [class.wrong]="gameState.feedbackState() === 'wrong'">
+        @if (gameState.feedbackState() === 'correct') {
+          <div class="feedback-icon">✅</div>
+          <div class="feedback-text">Correct!</div>
+        }
+          @if (gameState.feedbackState() === 'wrong') {
+          <div class="feedback-icon">❌</div>
+          <div class="feedback-text">
+            @if (gameState.currentProblem(); as problem) {
+              Answer: {{ problem.answer }}
+            }
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Overlay flash -->
+  @if (showFeedback() && gameState.feedbackState() !== 'none') {
+    <div class="flash-overlay" [class.flash-correct]="gameState.feedbackState() === 'correct'" [class.flash-wrong]="gameState.feedbackState() === 'wrong'"></div>
+  }
+
+  <!-- Answer input -->
+  @if (gameState.feedbackState() === 'none') {
+    <div class="answer-section">
+      <input
+        #answerInput
+        type="number"
+        class="answer-input"
+        placeholder="Your answer..."
+        [ngModel]="userAnswer()"
+        (ngModelChange)="userAnswer.set($event)"
+        (keydown)="onKeydown($event)"
+        autofocus
+      />
+      <button class="submit-btn" (click)="submitAnswer()" [disabled]="userAnswer() === ''">
+        ✓ Submit
+      </button>
+    </div>
+  }
+
+  <!-- Quit button -->
+  <button class="quit-btn" (click)="gameState.goToSetup()">
+    ← Back to Setup
+  </button>
+
+</div>
