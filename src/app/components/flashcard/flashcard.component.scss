@@ -1,0 +1,257 @@
+.game-container {
+  max-width: 540px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  position: relative;
+}
+
+/* Header */
+.game-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: white;
+  border-radius: 20px;
+  padding: 1rem 1.25rem;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+
+.progress-section {
+  flex: 1;
+}
+
+.progress-label {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #666;
+  margin-bottom: 0.4rem;
+}
+
+.progress-bar-track {
+  height: 12px;
+  background: #efefef;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--secondary), var(--primary));
+  border-radius: 6px;
+  transition: width 0.4s ease;
+}
+
+.score-section {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.score-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(135deg, var(--primary), #ff8c42);
+  color: white;
+  border-radius: 14px;
+  padding: 0.4rem 0.8rem;
+  min-width: 56px;
+}
+
+.score-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  opacity: 0.85;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.score-value {
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+
+.streak-badge {
+  background: linear-gradient(135deg, #ff9500, #ff5e00);
+  color: white;
+  border-radius: 14px;
+  padding: 0.4rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 800;
+  animation: pulse 1s infinite;
+}
+
+.stars-badge {
+  font-size: 1.1rem;
+}
+
+/* Timer */
+.timer-section {
+  display: flex;
+  justify-content: center;
+}
+
+.timer-ring {
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.15));
+}
+
+/* Flashcard */
+.card-wrapper {
+  width: 100%;
+  perspective: 1000px;
+}
+
+.card {
+  width: 100%;
+  min-height: 180px;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.5s ease;
+  border-radius: 24px;
+}
+
+.card-wrapper.flipped .card {
+  transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+  position: absolute;
+  width: 100%;
+  min-height: 180px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.14);
+}
+
+.card-front {
+  background: white;
+}
+
+.card-back {
+  transform: rotateY(180deg);
+  background: white;
+
+  &.correct {
+    background: linear-gradient(135deg, #95E1D3, #4ecdc4);
+    color: white;
+  }
+
+  &.wrong {
+    background: linear-gradient(135deg, #FF8B94, #ff6b6b);
+    color: white;
+  }
+}
+
+.problem-text {
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: #333;
+  text-align: center;
+  letter-spacing: 0.02em;
+  padding: 1rem;
+}
+
+.feedback-icon {
+  font-size: 3rem;
+}
+
+.feedback-text {
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-top: 0.5rem;
+}
+
+/* Flash overlay */
+.flash-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+  border-radius: 0;
+  opacity: 0;
+
+  &.flash-correct {
+    animation: flash-green 1.5s ease-out forwards;
+  }
+
+  &.flash-wrong {
+    animation: flash-red 1.5s ease-out forwards;
+  }
+}
+
+/* Answer */
+.answer-section {
+  width: 100%;
+  display: flex;
+  gap: 0.75rem;
+}
+
+.answer-input {
+  flex: 1;
+  padding: 0.9rem 1.2rem;
+  border-radius: 16px;
+  border: 3px solid #e0e0e0;
+  font-size: 1.4rem;
+  font-family: inherit;
+  font-weight: 700;
+  text-align: center;
+  transition: border-color 0.15s;
+
+  &:focus {
+    outline: none;
+    border-color: var(--secondary);
+    box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.2);
+  }
+}
+
+.submit-btn {
+  padding: 0.9rem 1.6rem;
+  border-radius: 16px;
+  border: none;
+  background: linear-gradient(135deg, var(--secondary), #38b2ac);
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(78, 205, 196, 0.4);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+/* Quit */
+.quit-btn {
+  background: none;
+  border: 2px solid #ddd;
+  border-radius: 12px;
+  color: #999;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: all 0.15s;
+
+  &:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+  }
+}

@@ -1,0 +1,107 @@
+<div class="results-container">
+
+  <!-- Main result card -->
+  <div class="result-hero">
+    <div class="result-emoji">{{ emoji }}</div>
+    <h1 class="result-score">{{ totalCorrect }} / {{ totalQuestions }} Correct</h1>
+    <div class="result-pct" [class]="percentageClass">{{ percentage }}%</div>
+    <p class="result-message">{{ message }}</p>
+
+    <div class="result-stats">
+      <div class="stat">
+        <span class="stat-icon">⏱️</span>
+        <span class="stat-label">Time</span>
+        <span class="stat-value">{{ totalTimeSpent }}s</span>
+      </div>
+      <div class="stat">
+        <span class="stat-icon">🔥</span>
+        <span class="stat-label">Best Streak</span>
+        <span class="stat-value">{{ gameState.maxStreak() }}</span>
+      </div>
+      <div class="stat">
+        <span class="stat-icon">🏅</span>
+        <span class="stat-label">Points</span>
+        <span class="stat-value">{{ gameState.score() }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Save to leaderboard -->
+  @if (qualifiesForLeaderboard && !scoreSaved()) {
+    <div class="save-section card">
+      <h2 class="section-title">🏆 Save Your Score!</h2>
+      <div class="save-row">
+        <input
+          type="text"
+          class="name-input"
+          placeholder="Enter your name..."
+          [ngModel]="playerName()"
+          (ngModelChange)="playerName.set($event)"
+          maxlength="20"
+        />
+        <button class="save-btn" (click)="saveScore()" [disabled]="!playerName().trim()">
+          Save 🎉
+        </button>
+      </div>
+    </div>
+  }
+
+  @if (scoreSaved()) {
+    <div class="saved-badge card">
+      ✅ Score saved for {{ playerName() }}!
+    </div>
+  }
+
+  <!-- High scores -->
+  @if (highScores().length > 0) {
+    <div class="card">
+      <h2 class="section-title">🏆 Leaderboard</h2>
+      <div class="scores-list">
+        @for (hs of highScores(); track hs.id; let i = $index) {
+          <div class="score-row">
+            <span class="rank">{{ i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : (i + 1) + '.' }}</span>
+            <span class="player-name">{{ hs.playerName }}</span>
+            <span class="player-pct">{{ hs.percentage }}%</span>
+            <span class="player-pts">{{ hs.score }}pts</span>
+            <span class="player-date">{{ hs.date }}</span>
+          </div>
+        }
+      </div>
+    </div>
+  }
+
+  <!-- Question review -->
+  <div class="card">
+    <h2 class="section-title">📋 Question Review</h2>
+    <div class="review-list">
+      @for (result of gameState.results(); track result.problem.id; let i = $index) {
+        <div class="review-row" [class.review-correct]="result.isCorrect" [class.review-wrong]="!result.isCorrect">
+          <span class="review-num">{{ i + 1 }}.</span>
+          <span class="review-problem">{{ result.problem.displayText }}</span>
+          <span class="review-answer">
+            @if (result.userAnswer !== null) {
+              {{ result.userAnswer }}
+            } @else {
+              (no answer)
+            }
+          </span>
+          @if (!result.isCorrect) {
+            <span class="review-correct-ans">✓ {{ result.problem.answer }}</span>
+          }
+          <span class="review-icon">{{ result.isCorrect ? '✅' : '❌' }}</span>
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- Action buttons -->
+  <div class="action-buttons">
+    <button class="btn-play-again" (click)="gameState.startGame(gameState.config())">
+      🔄 Play Again
+    </button>
+    <button class="btn-settings" (click)="gameState.goToSetup()">
+      ⚙️ Change Settings
+    </button>
+  </div>
+
+</div>

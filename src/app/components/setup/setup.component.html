@@ -1,0 +1,126 @@
+<div class="setup-container">
+  <header class="setup-header">
+    <div class="title-icon">🧮</div>
+    <h1 class="setup-title">Math Tutor</h1>
+    <p class="setup-subtitle">Let's Practice Math!</p>
+  </header>
+
+  <!-- Grade Presets -->
+  <section class="section">
+    <h2 class="section-title">🎓 Pick Your Grade</h2>
+    <div class="preset-grid">
+      @for (preset of gradePresets; track preset.label) {
+        <button class="preset-btn" (click)="applyPreset(preset)">
+          {{ preset.label }}
+        </button>
+      }
+    </div>
+  </section>
+
+  <!-- Operations -->
+  <section class="section">
+    <h2 class="section-title">🔢 Choose Operations</h2>
+    <div class="ops-grid">
+      @for (op of operations; track op.value) {
+        <label class="op-checkbox" [class.selected]="isOperationSelected(op.value)">
+          <input
+            type="checkbox"
+            [checked]="isOperationSelected(op.value)"
+            (change)="toggleOperation(op.value)"
+          />
+          <span class="op-emoji">{{ op.emoji }}</span>
+          <span class="op-label">{{ op.label }}</span>
+        </label>
+      }
+    </div>
+  </section>
+
+  <!-- Number Range -->
+  <section class="section">
+    <h2 class="section-title">📊 Number Range</h2>
+    <div class="range-row">
+      <div class="range-field">
+        <label>Min</label>
+        <input
+          type="number"
+          [ngModel]="minValue()"
+          (ngModelChange)="minValue.set($event)"
+          min="0"
+          max="999"
+          class="number-input"
+        />
+      </div>
+      <span class="range-separator">to</span>
+      <div class="range-field">
+        <label>Max</label>
+        <input
+          type="number"
+          [ngModel]="maxValue()"
+          (ngModelChange)="maxValue.set($event)"
+          min="1"
+          max="999"
+          class="number-input"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Question Count -->
+  <section class="section">
+    <h2 class="section-title">❓ Number of Questions</h2>
+    <div class="choice-row">
+      @for (count of questionCounts; track count) {
+        <button
+          class="choice-btn"
+          [class.active]="questionCount() === count"
+          (click)="questionCount.set(count)"
+        >
+          {{ count }}
+        </button>
+      }
+    </div>
+  </section>
+
+  <!-- Timer -->
+  <section class="section">
+    <h2 class="section-title">⏱️ Timer Per Question</h2>
+    <div class="choice-row">
+      @for (opt of timerOptions; track opt.value) {
+        <button
+          class="choice-btn"
+          [class.active]="timerSeconds() === opt.value"
+          (click)="timerSeconds.set(opt.value)"
+        >
+          {{ opt.label }}
+        </button>
+      }
+    </div>
+  </section>
+
+  <!-- Start Button -->
+  <div class="start-section">
+    <button class="start-btn" [disabled]="!canStart" (click)="startGame()">
+      🚀 Start Game!
+    </button>
+    @if (!canStart) {
+      <p class="hint-text">Please select at least one operation</p>
+    }
+  </div>
+
+  <!-- High Scores -->
+  @if (highScores.length > 0) {
+    <section class="section high-scores-section">
+      <h2 class="section-title">🏆 Top Scores</h2>
+      <div class="scores-list">
+        @for (hs of highScores; track hs.id; let i = $index) {
+          <div class="score-row">
+            <span class="score-rank">{{ i === 0 ? '🥇' : i === 1 ? '🥈' : '🥉' }}</span>
+            <span class="score-name">{{ hs.playerName }}</span>
+            <span class="score-pct">{{ hs.percentage }}%</span>
+            <span class="score-pts">{{ hs.score }}pts</span>
+          </div>
+        }
+      </div>
+    </section>
+  }
+</div>
